@@ -95,7 +95,7 @@ Descript, where you edit the transcript like a document, or CapCut, with automat
 
 ## Want help?
 
-Want help installing this or learning it? The Quiet AI can help: [thequietscribe.com](https://thequietscribe.com). There is also a free community, Wellness & AI, at [skool.com/wellness-and-ai/about](https://skool.com/wellness-and-ai/about).
+Want help installing this or learning it? The Quiet Ai can help: [thequietscribe.com](https://thequietscribe.com). There is also a free community, Wellness & AI, at [skool.com/wellness-and-ai/about](https://skool.com/wellness-and-ai/about).
 
 ## Licence
 
