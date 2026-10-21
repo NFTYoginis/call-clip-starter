@@ -1,0 +1,7 @@
+{
+  "video": "/path/to/your-call.mp4",
+  "asr": "/path/to/your-call.asr.json",
+  "asr_offset": 0.0,
+  "fps": 30,
+  "chunks": [[83.2, 91.5], [140.0, 152.3]]
+}

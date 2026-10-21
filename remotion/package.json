@@ -1,0 +1,18 @@
+{
+  "name": "call-clip-starter",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio",
+    "render": "remotion render Clip out/clip.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.455",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.455"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.7",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+remotion/out/
+.parts/
+__pycache__/
+.DS_Store
+*.asr.json
+*.asr.txt
