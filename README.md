@@ -98,4 +98,4 @@ Our own code is MIT. That covers only what is in this repo.
 
 Remotion, which draws the captions, is a separate dependency under its own licence. It is source-available, not open source, and our MIT licence gives you no rights to it. Remotion is free for individuals and for teams of up to 3 people, contractors included. A company of 4 or more needs a Remotion Company License. The count is the size of the whole company, not the number of people who use Remotion. If you set this up for a client who will run it, both headcounts are added together. You are responsible for checking that you qualify: [remotion.dev/docs/license](https://www.remotion.dev/docs/license) and [remotion.pro/license](https://www.remotion.pro/license).
 
-Remotion 5.0 is expected to change the terms. After `npm install`, read `node_modules/remotion/LICENSE.md` to see the terms that came with your copy.
+Remotion may change its terms in a future version, so read them again when you update it. The current terms are at the two links above.
