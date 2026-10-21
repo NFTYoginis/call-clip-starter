@@ -55,7 +55,7 @@ python3 cut.py plan.json --check
 python3 cut.py plan.json
 ```
 
-If an in or out point lands inside a spoken word, `cut.py` moves it to just outside that word and tells you which one. You do not get half a syllable at a join.
+If an in or out point lands inside a spoken word, `cut.py` moves it to just outside that word and tells you which one. It can only do this for words Whisper heard.
 
 **4. Render.**
 
@@ -70,7 +70,7 @@ npm run render    # writes remotion/out/clip.mp4
 ## Why the captions stay in step
 
 - **The timings come from the transcript.** Each word has its own start and end time. Nothing is spread evenly across a sentence.
-- **A word belongs to the chunk that holds its midpoint.** A word that straddles a join would otherwise start inside the cut and end outside it, and its caption would light up and never turn off.
+- **A word belongs to the chunk that holds its midpoint.** Otherwise a word that straddles a join would start inside the cut and end outside it, and its caption would light up and never turn off.
 - **Every join starts a new caption line.** A line never reads half from one moment and half from another.
 
 ## Make it yours
@@ -79,10 +79,15 @@ Everything visual is in [`remotion/src/Clip.tsx`](remotion/src/Clip.tsx): colour
 
 ## Honest limits
 
-- Whisper mishears names and jargon. Read the caption text before you post. `--model medium` helps.
+- Whisper mishears names and jargon. Read the caption text before you post. `small` is the default model, and `--model medium` helps.
+- A cut can still land inside a word that Whisper missed.
 - This is not a full editor. It does not cut dead air and it does not crop to a speaker's face. It is the spine of one.
+- A wide screen recording sits small in the vertical frame, so on-screen text can be hard to read. For text-heavy recordings, change the layout to 16:9 in `Root.tsx` and `Clip.tsx`.
+- It does not tell speakers apart. With more than one voice, check who is speaking before you cut.
+- Every chunk is re-encoded, so it is not a straight copy of your video.
 - Tested on macOS only so far (Whisper `base` and `small`). Other platforms may work. We have not run them.
 - Long recordings, an hour or more: trim the stretch you care about with ffmpeg first, transcribe that, and set `asr_offset` in the plan to the time where the stretch started.
+- If other people are on the recording, get their yes before you post a clip. The tool does not ask for you.
 
 ## Not ready to code?
 
