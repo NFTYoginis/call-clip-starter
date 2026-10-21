@@ -1,6 +1,8 @@
 # call-clip-starter
 
-Cut short, captioned clips out of a long recording (a call, a webinar, a screen share). Captions are word-synced to the real transcript, and no cut ever lands inside a word.
+Cut short, captioned clips out of a long recording: a call, a webinar, a screen share. Each caption is timed to the word it belongs to, and if a cut point would land inside a spoken word, the tool moves it just outside that word.
+
+Built by The Quiet Scribe.
 
 ![three frames from a sample clip](docs/preview.png)
 
@@ -21,7 +23,13 @@ pip install -r requirements.txt
 (cd remotion && npm install)
 ```
 
-**1. Transcribe.** Local and free. Writes `my-call.asr.json` and a readable `my-call.asr.txt` next to the recording.
+**First, run the sample.** The repo ships with a tiny test clip, so you can see what the captions look like before you touch your own recording:
+
+```bash
+cd remotion && npm run dev
+```
+
+**1. Transcribe.** Whisper runs on your own computer. It writes `my-call.asr.json` and a readable `my-call.asr.txt` next to the recording.
 
 ```bash
 python3 transcribe.py my-call.mp4
@@ -38,16 +46,16 @@ python3 transcribe.py my-call.mp4
 }
 ```
 
-Each chunk is `[in, out]` in seconds. Use one chunk for one moment, or several to splice moments together.
+Each chunk is `[in, out]` in seconds. One chunk gives you one moment. Several chunks are joined into one clip.
 
-**3. Cut.** Audit first if you like (`--check` writes nothing):
+**3. Cut.** To see what would change without writing anything, run the check first (`--check` writes nothing):
 
 ```bash
 python3 cut.py plan.json --check
 python3 cut.py plan.json
 ```
 
-If an in or out point lands inside a spoken word, `cut.py` moves it to just outside that word and tells you. You never get a clipped syllable at a splice.
+If an in or out point lands inside a spoken word, `cut.py` moves it to just outside that word and tells you which one. You do not get half a syllable at a join.
 
 **4. Render.**
 
@@ -57,27 +65,37 @@ npm run dev       # preview and tweak in the browser
 npm run render    # writes remotion/out/clip.mp4
 ```
 
-The repo ships with a tiny synthetic sample, so `npm run dev` works before you have cut anything. `cut.py` overwrites it with your clip.
+`cut.py` overwrites the sample with your clip.
 
-## What makes the captions land
+## Why the captions stay in step
 
-- **Word-level timings from the transcript**, not a guess spread across a sentence.
-- **A word belongs to the chunk containing its midpoint.** A word straddling a splice would otherwise get a start inside the cut and an end outside it, and the caption would light up and never turn off.
-- **A fresh caption line starts at every splice**, so a line never reads half from one moment and half from another.
+- **The timings come from the transcript.** Each word has its own start and end time. Nothing is spread evenly across a sentence.
+- **A word belongs to the chunk that holds its midpoint.** A word that straddles a join would otherwise start inside the cut and end outside it, and its caption would light up and never turn off.
+- **Every join starts a new caption line.** A line never reads half from one moment and half from another.
 
 ## Make it yours
 
-Everything visual is in [`remotion/src/Clip.tsx`](remotion/src/Clip.tsx): colours, font, words per line, layout. The top of the file is the dials. The composition is 1080x1920 (vertical); change it in `Root.tsx` for 16:9 or square.
+Everything visual is in [`remotion/src/Clip.tsx`](remotion/src/Clip.tsx): colours, font, words per line, layout. The top of the file holds the settings. The video is 1080x1920 (vertical). To get 16:9 or square, change it in `Root.tsx`.
 
 ## Honest limits
 
-- Whisper mishears names and jargon. Skim the caption text before you post; `--model medium` helps.
-- The starter does not cut dead air for you or crop to a speaker's face. It is the spine, not the whole editor.
-- Tested on macOS with Whisper `base` and `small`. Other platforms should work but have not been run.
-- Long recordings (an hour or more): trim the window you care about with ffmpeg first, transcribe that, and set `asr_offset` in the plan to where the window started.
+- Whisper mishears names and jargon. Read the caption text before you post. `--model medium` helps.
+- This is not a full editor. It does not cut dead air and it does not crop to a speaker's face. It is the spine of one.
+- Tested on macOS only so far (Whisper `base` and `small`). Other platforms may work. We have not run them.
+- Long recordings, an hour or more: trim the stretch you care about with ffmpeg first, transcribe that, and set `asr_offset` in the plan to the time where the stretch started.
 
 ## Not ready to code?
 
-Descript (edit the transcript like a doc) or CapCut (auto-captions, word-by-word styling) get you most of the way with no setup. This repo pays off once you are cutting the same kind of clip again and again.
+Descript, where you edit the transcript like a document, or CapCut, with automatic word-by-word captions, will get you most of the way with no setup. This repo earns its place once you are cutting the same kind of clip again and again.
 
-MIT licensed.
+## Want help?
+
+Want help installing this or learning it? The Quiet AI can help: [thequietscribe.com](https://thequietscribe.com). There is also a free community, Wellness & AI, at [skool.com/wellness-and-ai/about](https://skool.com/wellness-and-ai/about).
+
+## Licence
+
+Our own code is MIT. That covers only what is in this repo.
+
+Remotion, which draws the captions, is a separate dependency under its own licence. It is source-available, not open source, and our MIT licence gives you no rights to it. Remotion is free for individuals and for teams of up to 3 people, contractors included. A company of 4 or more needs a Remotion Company License. The count is the size of the whole company, not the number of people who use Remotion. If you set this up for a client who will run it, both headcounts are added together. You are responsible for checking that you qualify: [remotion.dev/docs/license](https://www.remotion.dev/docs/license) and [remotion.pro/license](https://www.remotion.pro/license).
+
+Remotion 5.0 is expected to change the terms. After `npm install`, read `node_modules/remotion/LICENSE.md` to see the terms that came with your copy.
